@@ -1,7 +1,17 @@
-@Credits: Federico Cappelli
-@Support: (ahahah support :D) aniway: admin@federicocappelli.net
-@use:
+@Overview: KPredicateEditor is a composer for complex relation search keys -> search strings with suggestions popup, an example is an advanced search form with multiple search fields:
+FullText: blablabla | Date: 2/12/1970 | Color: Blue | etc…
 
+Written in Objective-C Cocoa for Mac OSX
+
+@Site and Screenshot: http://www.federicocappelli.net/lib-code/kpredicateeditor/
+
+@Credits: Federico Cappelli
+@Support: (ahahah support :D) anyway: admin (at) federicocappelli.net
+
+@Framework dependencies:
+#import <Quartz/Quartz.h>
+
+@Use
 ---in the init of your superview:
 KPEViewController kpeViewController = [[KPEViewController alloc] initWithKeys: keysString
                                                           andSuggestions: suggestions
@@ -13,13 +23,13 @@ kpeViewController.delegate = self;
 where:
 
 keysString: array of NSString to show in the left popup menu
-suggestions: Couples of key K - array A of NSString to show in the suggestions popup menu on right,where K is selected, if a K key don't have suggestions (don't have an array in A) the suggestions button not displayed.
+suggestions: Couples of [key K - array] A of NSString to show in the suggestions popup menu on right,where K is selected, if a K key don't have suggestions (don't have an array in A) the suggestions button not displayed.
 
 ---In you superview awakeFromNib
 
 - (void)awakeFromNib
 {   
-	[self.kpeViewController addRow];
+    [self.kpeViewController addRow];
     [self resizeOfKPE:38.0];
 }
 
