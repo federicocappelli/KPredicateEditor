@@ -14,33 +14,33 @@
 
 #define CELL_HEIGHT 36.0
 
--(id)initWithKeys:(NSArray *)keysString andSuggestions:(NSDictionary*)suggestions andFrame:(CGRect)frame
+-(id)initWithKeys:(NSArray *)keysString suggestions:(NSDictionary*)suggestions origin:(CGPoint)origin width:(CGFloat)width
 {
     self = [super init];
     if (self) 
     {
-        if(keysString == NULL || suggestions == NULL || CGRectIsNull(frame) || CGRectIsEmpty(frame))
+        if(keysString == NULL)
             return NULL;
         
         //Inizializzo componenti grafiche
-        self.view = [[NSView alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, CELL_HEIGHT)];
+        self.view = [[NSView alloc] initWithFrame:CGRectMake(origin.x, origin.y, width, CELL_HEIGHT+2)];
         
         self.listView=[[PXListView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
         self.listView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable | NSViewMaxXMargin | NSViewMaxYMargin;
         self.listView.delegate = self;
         [self.listView setCellSpacing:0.0f];
-        [self.listView setAllowsEmptySelection:YES];
-        [self.listView setAllowsMultipleSelection:YES];
-        [self.listView registerForDraggedTypes:[NSArray arrayWithObjects: NSStringPboardType, nil]];
+        [self.listView setAllowsEmptySelection:NO];
+        [self.listView setAllowsMultipleSelection:NO];
+        //[self.listView registerForDraggedTypes:[NSArray arrayWithObjects: NSStringPboardType, nil]];
         self.listView.usesLiveResize = YES;
-        [self.listView setHasVerticalScroller:YES];
+        [self.listView setHasVerticalScroller:NO];
         [self.listView setHasHorizontalScroller:NO];
         [self.listView setDrawsBackground:YES];
         [self.listView setAutohidesScrollers:YES];
         [[self.listView contentView] setCopiesOnScroll:NO];
         [self.view addSubview:self.listView];
         
-        PXListDocumentView *docView = [[PXListDocumentView alloc] initWithFrame:self.view.frame];//CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, CELL_HEIGHT)];
+        PXListDocumentView *docView = [[PXListDocumentView alloc] initWithFrame:self.view.frame];
         [docView setListView:self.listView];
         [self.listView setDocumentView:docView];
         
@@ -50,7 +50,7 @@
         self.predicates = [[NSMutableArray alloc] init];
         
         //Options
-        maxWidth = frame.size.width;
+        maxWidth = width;
         //if(self.startWithFirstRow)
         //[self addRow];
     }
@@ -105,20 +105,6 @@
     return cleanedCopyOfPredicates;
 }
 
-/*-(NSPredicate *)getPredicate
- {
- NSMutableString * allPredicates = [[[NSMutableString alloc] init] autorelease];
- //for (KPredicate * pred in self.predicates)
- for (int i=0; i<[self.predicates count]; i++)
- {
- KPredicate * pred = [self.predicates objectAtIndex:i];
- [allPredicates appendString:[pred description]];
- if(i+1 < [self.predicates count])
- [allPredicates appendString:@" AND "];
- }
- return [NSPredicate predicateWithFormat:allPredicates];
- }*/
-
 #pragma mark - List View Delegate Methods
 
 - (NSUInteger)numberOfRowsInListView: (PXListView*)aListView
@@ -146,12 +132,13 @@
 	return CELL_HEIGHT;
 }
 
+/*
 - (void)listViewSelectionDidChange:(NSNotification*)aNotification
 {
     NSLog(@"Selection changed %@", [aNotification description]);
 }
 
-// The following are only needed for drag'n drop:
+//The following are only needed for drag'n drop:
 - (BOOL)listView:(PXListView*)aListView writeRowsWithIndexes:(NSIndexSet*)rowIndexes toPasteboard:(NSPasteboard*)dragPasteboard
 {
 	// +++ Actually drag the items, not just dummy data.
@@ -165,7 +152,7 @@
       proposedDropHighlight:(PXListViewDropHighlight)dropHighlight;
 {
 	return NSDragOperationCopy;
-}
+}*/
 
 #pragma mark - KPredicateCellDelegate
 
@@ -180,14 +167,18 @@
 
 -(void)deleteCell:(KPredicateViewCell *)cell
 {
-    if([self.predicates count]<2)
+    if([self.predicates count]==1)
         return;
     [self removeRowAtIndex:cell.row];
     
-    [self.delegate resizeOfKPE:(CELL_HEIGHT+1.0)*[self.predicates count]];
+    [self.delegate resizeOfKPE:(CELL_HEIGHT)*[self.predicates count]];
     //PXListDocumentView * dv = self.listView.documentView;
     //[self.delegate resizeOfKPE:dv.frame.size.height];
-    
+}
+
+-(void)searchFieldCRpressed
+{
+    [self.delegate crPerformedFromKPESearchField];
 }
 
 @end

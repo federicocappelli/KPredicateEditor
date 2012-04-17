@@ -48,12 +48,14 @@
 -(void)updatePredicate;
 -(void)render:(NSArray *)keysString suggestions:(NSDictionary*)suggestionsForKeys predicate:(KPredicate *)predicate;
 -(void)setSuggestionButtonHide:(BOOL)visible;
+-(IBAction)searchFieldSelector:(id)sender;
 
 @end
 
 @protocol KPredicateCellDelegate
-
+@optional
 -(void)deleteCell:(KPredicateViewCell*)cell;
 -(void)addCellFromCell:(KPredicateViewCell*)cell;
+-(void)searchFieldCRpressed;
 
 @end

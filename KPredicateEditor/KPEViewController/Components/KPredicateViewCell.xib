@@ -50,8 +50,8 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="NSPopUpButton" id="339767546">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{514, 8.5}, {26, 19}}</string>
+						<int key="NSvFlags">257</int>
+						<string key="NSFrame">{{531, 9}, {26, 19}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="413217254"/>
@@ -92,7 +92,7 @@
 					</object>
 					<object class="NSImageView" id="413217254">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">265</int>
+						<int key="NSvFlags">257</int>
 						<object class="NSMutableSet" key="NSDragTypes">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="NSArray" key="set.sortedObjects">
@@ -105,7 +105,7 @@
 								<string>NeXT TIFF v4.0 pasteboard type</string>
 							</object>
 						</object>
-						<string key="NSFrame">{{517, 10}, {21, 16}}</string>
+						<string key="NSFrame">{{534, 10}, {21, 16}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="527603550"/>
@@ -126,8 +126,8 @@
 					</object>
 					<object class="NSTextField" id="1024406691">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{131, 7}, {377, 22}}</string>
+						<int key="NSvFlags">258</int>
+						<string key="NSFrame">{{135, 7}, {388, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="339767546"/>
@@ -162,8 +162,8 @@
 					</object>
 					<object class="NSPopUpButton" id="606340115">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{9, 8.5}, {114, 19}}</string>
+						<int key="NSvFlags">260</int>
+						<string key="NSFrame">{{13, 9}, {114, 19}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1024406691"/>
@@ -198,8 +198,8 @@
 					</object>
 					<object class="NSButton" id="527603550">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{569, 10}, {16, 16}}</string>
+						<int key="NSvFlags">257</int>
+						<string key="NSFrame">{{580, 10}, {16, 16}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="522686399"/>
@@ -224,8 +224,8 @@
 					</object>
 					<object class="NSButton" id="522686399">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">265</int>
-						<string key="NSFrame">{{599, 10}, {16, 16}}</string>
+						<int key="NSvFlags">257</int>
+						<string key="NSFrame">{{603, 10}, {16, 16}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -322,6 +322,14 @@
 						<reference key="destination" ref="413217254"/>
 					</object>
 					<int key="connectionID">57</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">searchFieldSelector:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="1024406691"/>
+					</object>
+					<int key="connectionID">60</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -534,7 +542,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">59</int>
+			<int key="maxID">60</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -548,11 +556,13 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addRow:</string>
 							<string>deleteRow:</string>
+							<string>searchFieldSelector:</string>
 							<string>suggestionsPopUpSelected:</string>
 							<string>typePopUpSelected:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -565,6 +575,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addRow:</string>
 							<string>deleteRow:</string>
+							<string>searchFieldSelector:</string>
 							<string>suggestionsPopUpSelected:</string>
 							<string>typePopUpSelected:</string>
 						</object>
@@ -576,6 +587,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">deleteRow:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">searchFieldSelector:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

@@ -28,7 +28,7 @@
 
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"\"%@\" %@ \"%@\"",self.theType,self.op,self.theSearchKey];
+    return [NSString stringWithFormat:@"%@ in %@",self.theSearchKey,self.theType];
 }
 
 @end

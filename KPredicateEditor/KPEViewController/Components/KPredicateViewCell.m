@@ -106,22 +106,22 @@
     CGContextRef context = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSetRGBFillColor(context, 0.929,0.929,0.929,1.0);
     CGContextFillRect(context, NSRectToCGRect(dirtyRect));
- 
-    //Linea grigia
-    [NSBezierPath setDefaultLineWidth:1.0];
-    [[NSColor colorWithCalibratedRed:0.749 green:0.749 blue:0.749 alpha:1.0] set];
-    NSBezierPath* aPath = [NSBezierPath bezierPath];
-    [aPath moveToPoint:NSMakePoint(0.0, 4.0)];
-    [aPath lineToPoint:NSMakePoint(self.frame.size.width, 4.0)];
-    [aPath stroke];
     
-    //Linea chiara
-    [NSBezierPath setDefaultLineWidth:1.0];
-    [[NSColor colorWithCalibratedRed:0.976 green:0.980 blue:0.976 alpha:1.0] set];
+    //Linea chiara in alto
     NSBezierPath* bPath = [NSBezierPath bezierPath];
-    [bPath moveToPoint:NSMakePoint(0.0, 2.0)];
-    [bPath lineToPoint:NSMakePoint(self.frame.size.width, 2.0)];
-    [bPath stroke];
+    [bPath setLineWidth:1.0];
+    [[NSColor colorWithCalibratedRed:0.976 green:0.980 blue:0.976 alpha:1.0] set];
+    [bPath moveToPoint:NSMakePoint(0.5, self.frame.size.height)];
+    [bPath lineToPoint:NSMakePoint(self.frame.size.width, self.frame.size.height)];
+    [bPath stroke];   
+    
+    //Linea grigia in basso
+    NSBezierPath* aPath = [NSBezierPath bezierPath];
+    [aPath setLineWidth:1.0];
+    [[NSColor colorWithCalibratedRed:0.749 green:0.749 blue:0.749 alpha:1.0] set];
+    [aPath moveToPoint:NSMakePoint(0.5, 0.5)];
+    [aPath lineToPoint:NSMakePoint(self.frame.size.width, 0.5)];
+    [aPath stroke];
 }
 
 
@@ -228,6 +228,11 @@
     [self updatePredicate];
 }
 
+-(IBAction)searchFieldSelector:(id)sender
+{
+    [self.delegate searchFieldCRpressed];
+}
+
 #pragma mark - NSTextFieldDelegate
 
 -(void)controlTextDidEndEditing:(NSNotification *)obj
@@ -253,4 +258,5 @@
     [self.suggestionsButton setHidden:visible];
     [self.suggestionsButtonImage setHidden:visible];
 }
+
 @end
