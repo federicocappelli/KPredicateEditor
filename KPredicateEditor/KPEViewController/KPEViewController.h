@@ -30,6 +30,7 @@
     
     //Options
     CGFloat maxWidth;
+    CGFloat cellHeight;
     
     //Views
     PXListView * listView;
@@ -41,6 +42,7 @@
 @property(nonatomic, retain) NSDictionary * suggestionForKey;
 @property(nonatomic, retain) NSArray * keys;
 @property CGFloat maxWidth;
+@property CGFloat cellHeight;
 @property(nonatomic, retain) PXListView * listView;
 @property(nonatomic, assign) id <KPEDelegate> delegate;
 
@@ -53,9 +55,10 @@
 -(void)addRow;
 //Elimina la cella a index
 -(void)removeRowAtIndex:(NSInteger)index;
-
 //Restituisce un array di KPredicate (eliminando i vuoti)
 -(NSArray *)getPredicates;
+//resetta il pe
+-(void)reset;
 
 @end
 

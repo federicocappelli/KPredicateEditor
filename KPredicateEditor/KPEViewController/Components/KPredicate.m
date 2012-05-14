@@ -21,14 +21,22 @@
         self.theSearchKey = key;
         self.op= operator;
         if(self.op == NULL)
-            self.op = [[NSString alloc] initWithString:@"=="];
+            self.op = [[[NSString alloc] initWithString:@"=="] autorelease];
     }
     return self;
 }
 
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ in %@",self.theSearchKey,self.theType];
+    return [NSString stringWithFormat:@"\"%@\" in %@",self.theSearchKey,self.theType];
+}
+
+-(void)dealloc
+{
+    [theType release];
+    [theSearchKey release];
+    [op release];
+    [super dealloc];
 }
 
 @end

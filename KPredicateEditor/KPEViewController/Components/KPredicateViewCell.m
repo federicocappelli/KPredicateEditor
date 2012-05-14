@@ -13,7 +13,7 @@
 
 @implementation KPredicateViewCell
 
-@synthesize delegate, typeButton, suggestionsButton, searchField, thePredicate, texture, keys, suggestions, searchSuggestionSelected, suggestionsButtonImage;
+@synthesize delegate, typeButton, suggestionsButton, searchField, thePredicate, texture, keys, suggestions, searchSuggestionSelected, suggestionsButtonImage, position, addButton, removeButton;
 
 #pragma mark -
 #pragma mark Init/Dealloc
@@ -42,8 +42,9 @@
 
 #pragma mark - Render
 
--(void)render:(NSArray *)keysString suggestions:(NSDictionary*)suggestionsForKeys predicate:(KPredicate *)predicate;
+-(void)render:(NSArray *)keysString suggestions:(NSDictionary*)suggestionsForKeys predicate:(KPredicate *)predicate position:(NSRange)cellPosition
 {
+    self.position = cellPosition;
     self.keys = keysString;
     self.suggestions = suggestionsForKeys;
     self.thePredicate = predicate;
@@ -56,7 +57,6 @@
         NSArray * sugg = [NSArray arrayWithArray:[self.suggestions objectForKey:predicate.theType]];
         if([sugg count]>0 && sugg != NULL)
         {
-            
             [self setSuggestionButtonHide:FALSE];            
             NSMutableArray * suggVisualizzati = [[[NSMutableArray alloc] init] autorelease];
             for (SearchSuggestion * ss in sugg)
@@ -87,6 +87,12 @@
         else
             [self setSuggestionButtonHide:TRUE];
     }
+    
+    /*disabilito pulsante - se c'è un solo predicato
+    if(position.length == 1 || position.location == 0)
+        self.removeButton.alphaValue = 0.0;
+    else 
+        self.removeButton.alphaValue = 1.0;*/
 }
 
 #pragma mark -
@@ -115,13 +121,16 @@
     [bPath lineToPoint:NSMakePoint(self.frame.size.width, self.frame.size.height)];
     [bPath stroke];   
     
-    //Linea grigia in basso
-    NSBezierPath* aPath = [NSBezierPath bezierPath];
-    [aPath setLineWidth:1.0];
-    [[NSColor colorWithCalibratedRed:0.749 green:0.749 blue:0.749 alpha:1.0] set];
-    [aPath moveToPoint:NSMakePoint(0.5, 0.5)];
-    [aPath lineToPoint:NSMakePoint(self.frame.size.width, 0.5)];
-    [aPath stroke];
+    if(position.length != (position.location+1))
+    {
+        //Linea grigia in basso
+        NSBezierPath* aPath = [NSBezierPath bezierPath];
+        [aPath setLineWidth:1.0];
+        [[NSColor colorWithCalibratedRed:0.749 green:0.749 blue:0.749 alpha:1.0] set];
+        [aPath moveToPoint:NSMakePoint(0.5, 0.5)];
+        [aPath lineToPoint:NSMakePoint(self.frame.size.width, 0.5)];
+        [aPath stroke];
+    }
 }
 
 

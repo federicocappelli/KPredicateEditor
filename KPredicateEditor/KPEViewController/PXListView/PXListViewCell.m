@@ -100,7 +100,6 @@
 - (void)setDropHighlight:(PXListViewDropHighlight)inState
 {
 	[[self listView] setShowsDropHighlight: inState != PXListViewDropNowhere];
-	
 	_dropHighlight = inState;
 	[self setNeedsDisplay:YES];
 }

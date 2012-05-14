@@ -10,9 +10,7 @@
 
 @implementation KPEViewController
 
-@synthesize suggestionForKey, keys, predicates, listView, maxWidth, delegate;
-
-#define CELL_HEIGHT 36.0
+@synthesize suggestionForKey, keys, predicates, listView, maxWidth, delegate, cellHeight;
 
 -(id)initWithKeys:(NSArray *)keysString suggestions:(NSDictionary*)suggestions origin:(CGPoint)origin width:(CGFloat)width
 {
@@ -22,10 +20,14 @@
         if(keysString == NULL)
             return NULL;
         
-        //Inizializzo componenti grafiche
-        self.view = [[NSView alloc] initWithFrame:CGRectMake(origin.x, origin.y, width, CELL_HEIGHT+2)];
+        //Instanzio cella per calcolare altezza
+        KPredicateViewCell * cell = [KPredicateViewCell cellLoadedFromNibNamed:@"KPredicateViewCell" reusableIdentifier:@""];
+        self.cellHeight = cell.frame.size.height;
         
-        self.listView=[[PXListView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
+        //Inizializzo componenti grafiche
+        self.view = [[[NSView alloc] initWithFrame:NSMakeRect(origin.x, origin.y, width, self.cellHeight)] autorelease];
+        
+        self.listView=[[[PXListView alloc] initWithFrame:NSMakeRect(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)] autorelease];
         self.listView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable | NSViewMaxXMargin | NSViewMaxYMargin;
         self.listView.delegate = self;
         [self.listView setCellSpacing:0.0f];
@@ -38,32 +40,35 @@
         [self.listView setDrawsBackground:YES];
         [self.listView setAutohidesScrollers:YES];
         [[self.listView contentView] setCopiesOnScroll:NO];
+        
+        //[self.listView setBorderType:1];
+        [self.listView setDrawsBackground:YES];
+        [self.listView setBackgroundColor:[NSColor colorWithDeviceRed:0.749 green:0.749 blue:0.749 alpha:1.0]];
+        
         [self.view addSubview:self.listView];
         
-        PXListDocumentView *docView = [[PXListDocumentView alloc] initWithFrame:self.view.frame];
+        PXListDocumentView *docView = [[[PXListDocumentView alloc] initWithFrame:self.listView.frame] autorelease];
         [docView setListView:self.listView];
         [self.listView setDocumentView:docView];
         
         //Data
         self.suggestionForKey = suggestions;
         self.keys = keysString;
-        self.predicates = [[NSMutableArray alloc] init];
+        self.predicates = [[[NSMutableArray alloc] init] autorelease];
         
         //Options
         maxWidth = width;
         //if(self.startWithFirstRow)
         //[self addRow];
     }
-    
     return self;
 }
 
 -(void)dealloc
 {
-    [self.predicates release];
-    [self.suggestionForKey release];
-    [self.keys release];
-    
+    [predicates release];
+    [suggestionForKey release];
+    [keys release];
     [super dealloc];
 }
 
@@ -81,7 +86,7 @@
 
 -(void)addRow
 {
-    KPredicate * pred = [[KPredicate alloc] initWithType:@"" Key:@"" operator:nil];
+    KPredicate * pred = [[[KPredicate alloc] initWithType:@"" Key:@"" operator:nil] autorelease];
     [self.predicates addObject:pred];
     [self.listView reloadData];
 }
@@ -90,6 +95,13 @@
 {
     [self.predicates removeObjectAtIndex:index];
     [self.listView reloadData];
+}
+
+-(void)reset
+{
+    [self.predicates removeAllObjects];
+    [self addRow];
+    [self.delegate resizeOfKPE:(self.cellHeight)];
 }
 
 #pragma mark - Predicate
@@ -123,13 +135,16 @@
 	}
 	
     KPredicate * thisPredicate = [self.predicates objectAtIndex:row];
-    [cell render:self.keys suggestions:self.suggestionForKey predicate:thisPredicate];
+    NSRange cellPosition;
+    cellPosition.location = row;
+    cellPosition.length = [self.predicates count];
+    [cell render:self.keys suggestions:self.suggestionForKey predicate:thisPredicate position:cellPosition];
 	return cell;
 }
 
 - (CGFloat)listView:(PXListView*)aListView heightOfRow:(NSUInteger)row
 {
-	return CELL_HEIGHT;
+	return self.cellHeight;
 }
 
 /*
@@ -159,6 +174,10 @@
 -(void)addCellFromCell:(KPredicateViewCell *)cell
 {
     //NSLog(@"add cell at row: %lu",cell.row+1);
+    if ([self.predicates count]>=5)
+    {
+        return;
+    }
     
     PXListDocumentView * dv = self.listView.documentView;
     [self addRow];
@@ -171,7 +190,7 @@
         return;
     [self removeRowAtIndex:cell.row];
     
-    [self.delegate resizeOfKPE:(CELL_HEIGHT)*[self.predicates count]];
+    [self.delegate resizeOfKPE:(self.cellHeight)*[self.predicates count]];
     //PXListDocumentView * dv = self.listView.documentView;
     //[self.delegate resizeOfKPE:dv.frame.size.height];
 }

@@ -28,6 +28,10 @@ suggestions: Couples of key K - array A of NSString to show in the suggestions p
 -(void)addRow;
 -(void)removeRowAtIndex:(NSInteger)index;
 
+
+---Reset the predicate editor, with 1 empty predicate
+-(void)reset;
+
 ---Return an array of KPredicate (only the valid, and compiled one)
 
 -(NSArray *)getPredicates;

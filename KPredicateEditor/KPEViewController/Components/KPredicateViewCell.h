@@ -17,7 +17,10 @@
 @interface KPredicateViewCell : PXListViewCell <NSTextFieldDelegate>
 {
     id <KPredicateCellDelegate> delegate;
+    NSRange position;
     
+    NSButton * addButton;
+    NSButton * removeButton;
     NSPopUpButton * typeButton;
     NSPopUpButton * suggestionsButton;
     NSImageView * suggestionsButtonImage;
@@ -31,6 +34,9 @@
 }
 
 @property (nonatomic, assign) id <KPredicateCellDelegate> delegate;
+@property NSRange position;
+@property (nonatomic, retain) IBOutlet NSButton * addButton;
+@property (nonatomic, retain) IBOutlet NSButton * removeButton;
 @property (nonatomic, retain) IBOutlet NSPopUpButton * typeButton;
 @property (nonatomic, retain) IBOutlet NSPopUpButton * suggestionsButton;
 @property (nonatomic, retain) IBOutlet NSImageView * suggestionsButtonImage;
@@ -46,16 +52,16 @@
 -(IBAction)typePopUpSelected:(id)sender;
 -(IBAction)suggestionsPopUpSelected:(id)sender;
 -(void)updatePredicate;
--(void)render:(NSArray *)keysString suggestions:(NSDictionary*)suggestionsForKeys predicate:(KPredicate *)predicate;
+-(void)render:(NSArray *)keysString suggestions:(NSDictionary*)suggestionsForKeys predicate:(KPredicate *)predicate position:(NSRange)cellPosition;
 -(void)setSuggestionButtonHide:(BOOL)visible;
 -(IBAction)searchFieldSelector:(id)sender;
 
 @end
 
 @protocol KPredicateCellDelegate
+
 @optional
 -(void)deleteCell:(KPredicateViewCell*)cell;
 -(void)addCellFromCell:(KPredicateViewCell*)cell;
 -(void)searchFieldCRpressed;
-
 @end
